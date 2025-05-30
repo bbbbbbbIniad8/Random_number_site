@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id = "header">
+        <h1>ルーレットサイト！！！</h1>
+    </div>
+    <div class = "conditioner">
+        <div class = "box"><p id = "test">丸</p></div>
+        <button onclick="toggle()">push</button>
+        <ul>
+            <li>
+                <input type="text" id="input-text" placeholder="メッセージを入力">
+            </li>
+            <li>
+                <input type="text" id="input-text2" placeholder="メッセージを入力">
+            </li>
+        </ul>
+
+    </div>
+    <style>
+        h1{
+            background-color:rgb(224, 162, 162);
+            text-align: center;
+            padding:3vw;
+        }
+
+        .conditioner{
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        #test{
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            justify-content: center;
+            border:solid 3px black;
+            width: 45vw;
+            height: 15vw;
+            border-radius: 5px;
+        }
+
+    </style>
+
+    <script>
+        let intervalId = null;
+        let count = 0;
+        const roret = document.getElementById("test");
+
+        function update() {
+            count++;
+            const batu = document.getElementById("input-text").value;
+            roret.textContent = (count % 2 === 0) ? batu : "丸";
+        }
+
+        function toggle() {
+            if (intervalId === null) {
+                intervalId = setInterval(update, 50);
+            } else {
+                clearInterval(intervalId);
+                intervalId = null;
+            }
+        }
+    </script>
+</body>
+</html>
