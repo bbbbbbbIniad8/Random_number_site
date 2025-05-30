@@ -12,16 +12,58 @@
     <div class = "conditioner">
         <div class = "box"><p id = "test">丸</p></div>
         <button onclick="toggle()">push</button>
-        <ul>
-            <li>
-                <input type="text" id="input-text" placeholder="メッセージを入力">
-            </li>
-            <li>
-                <input type="text" id="input-text2" placeholder="メッセージを入力">
-            </li>
+        <ul id = "columns">
         </ul>
-
+        <input type="text" id="inputed" placeholder="メッセージを入力">
+        <button onclick="lst_criate()">追加</button>
+        
     </div>
+
+    <script>
+        let intervalId = null;
+        let count = 0;
+        let count2 = 0;
+        const roret = document.getElementById("test");
+        let lst = []
+
+        function lst_criate(){
+            const liElement = document.createElement('li');
+            const newlstElement = document.createElement('p');
+            newlstElement.id = `text${count2}`;
+            newlstElement.textContent = `${document.getElementById('inputed').value}`;
+            liElement.appendChild(newlstElement);
+            document.getElementById("columns").appendChild(liElement);
+            document.getElementById('inputed').value = "";
+            count2++;
+            
+        }
+
+        function update() {
+            count++;
+            roret.textContent = (lst[count % lst.length]);
+        }
+
+        function read_input(){
+            let target;
+            lst = [];
+            for(let i = 0;i < count2;i++){
+                console.log(`text${i}`);
+                target = document.getElementById(`text${i}`).textContent;
+                lst.push(target);
+            }
+        }
+
+        function toggle() {
+            read_input()
+            if (intervalId === null) {
+                intervalId = setInterval(update, 50);
+            } else {
+                clearInterval(intervalId);
+                intervalId = null;
+            }
+        }
+    </script>
+
     <style>
         h1{
             background-color:rgb(224, 162, 162);
@@ -47,26 +89,5 @@
         }
 
     </style>
-
-    <script>
-        let intervalId = null;
-        let count = 0;
-        const roret = document.getElementById("test");
-
-        function update() {
-            count++;
-            const batu = document.getElementById("input-text").value;
-            roret.textContent = (count % 2 === 0) ? batu : "丸";
-        }
-
-        function toggle() {
-            if (intervalId === null) {
-                intervalId = setInterval(update, 50);
-            } else {
-                clearInterval(intervalId);
-                intervalId = null;
-            }
-        }
-    </script>
 </body>
 </html>
