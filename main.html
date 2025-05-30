@@ -7,7 +7,7 @@
 </head>
 <body>
     <div id = "header">
-        <h1>ルーレット</h1>
+        <h1>スロット</h1>
     </div>
 
     <div class = "conditioner">
@@ -21,10 +21,10 @@
         
        
         <div id = "settingBox">
-            <span>スロット設定</span>
+            <span id = "midasi">スロット設定</span>
             <div id = "form">
                 <input type="text" id="inputed" placeholder="メッセージを入力">
-                <button onclick="lst_criate()">
+                <button id = "addBtn"onclick="lst_criate()">
                     追加
                 </button>
             </div>
@@ -88,9 +88,15 @@
             margin:0;
             margin-bottom:10px;
         }
+
         html{
             background-color: rgb(226, 226, 226);
         }
+
+        body,html {
+            margin: 0;  
+            padding: 0; 
+            }
 
         .conditioner{
             display: flex;
@@ -131,6 +137,26 @@
             background-color: white;
         }
 
+        #midasi{
+            border-bottom: 2px solid rgb(176, 42, 42);
+            width: 60%;
+            text-align: center;
+            margin-bottom:10px;
+        }
+
+        #form{
+            display:flex;
+            width: 80%;
+        }
+
+        input{
+            width: 120%;
+        }
+
+        #addBtn{
+            width: 20%;
+        }
+
         #columns{
             width: 80%;
             margin-top:5px;
@@ -154,6 +180,19 @@
             height: 70px;
             border-radius: 5px;
             margin:10px;
+        }
+
+
+        @media screen and (width <= 1200px){
+            #mainContent{
+            width: 70vw;
+        }}
+
+        @media screen and (width <= 768px){
+            #mainContent{
+            width: 80vw;
+        }
+        
         }
     </style>
 </body>
