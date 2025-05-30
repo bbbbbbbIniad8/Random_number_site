@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,68 +7,89 @@
 </head>
 <body>
     <div id = "header">
-        <h1>ルーレットサイト！！！</h1>
+        <h1>ルーレット</h1>
     </div>
+
     <div class = "conditioner">
-        <div class = "box"><p id = "test">丸</p></div>
-        <button onclick="toggle()">push</button>
-        <ul id = "columns">
-        </ul>
-        <input type="text" id="inputed" placeholder="メッセージを入力">
-        <button onclick="lst_criate()">追加</button>
+        <div id = "mainContent">
+        <div class = "box">
+            <p id = "roulette"></p>
+            <button id = "controlBtn" onclick="toggle()">
+                回転スタート
+            </button>
+        </div>
         
+       
+        <div id = "settingBox">
+            <span>スロット設定</span>
+            <div id = "form">
+                <input type="text" id="inputed" placeholder="メッセージを入力">
+                <button onclick="lst_criate()">
+                    追加
+                </button>
+            </div>
+            <div id = "columns">
+            </div>
+        </div>
     </div>
 
     <script>
         let intervalId = null;
-        let count = 0;
-        let count2 = 0;
-        const roret = document.getElementById("test");
-        let lst = []
+        let rotatecnt = 0;
+        let elementcnt = 0;
+        let rolllst = [];
+        const roulette = document.getElementById("roulette");
 
         function lst_criate(){
-            const liElement = document.createElement('li');
-            const newlstElement = document.createElement('p');
-            newlstElement.id = `text${count2}`;
+            const newlstElement = document.createElement('div');
+            newlstElement.id = `text${elementcnt}`;
+            newlstElement.className = `roll`;
             newlstElement.textContent = `${document.getElementById('inputed').value}`;
-            liElement.appendChild(newlstElement);
-            document.getElementById("columns").appendChild(liElement);
+            document.getElementById('columns').appendChild(newlstElement);
             document.getElementById('inputed').value = "";
-            count2++;
-            
+            elementcnt++;
         }
 
         function update() {
-            count++;
-            roret.textContent = (lst[count % lst.length]);
+            rotatecnt++;
+            roulette.textContent = (rolllst[rotatecnt % rolllst.length]);
         }
 
         function read_input(){
-            let target;
-            lst = [];
-            for(let i = 0;i < count2;i++){
-                console.log(`text${i}`);
-                target = document.getElementById(`text${i}`).textContent;
-                lst.push(target);
+            rolllst = [];
+            for(let i = 0;i < elementcnt;i++){
+                const target = document.getElementById(`text${i}`).textContent;
+                rolllst.push(target);
             }
         }
 
         function toggle() {
-            read_input()
             if (intervalId === null) {
+                read_input()
+                if(rolllst.length <= 0){
+                    alert('要素を入力してください!!');
+                    return;
+                }
                 intervalId = setInterval(update, 50);
             } else {
                 clearInterval(intervalId);
                 intervalId = null;
             }
-        }
+        }        
     </script>
 
     <style>
         h1{
-            background-color:rgb(224, 162, 162);
+            background-color:rgb(43, 43, 43);
+            color:white;
             text-align: center;
             padding:3vw;
+            position: relative;
+            margin:0;
+            margin-bottom:10px;
+        }
+        html{
+            background-color: rgb(226, 226, 226);
         }
 
         .conditioner{
@@ -77,17 +98,63 @@
             flex-direction: column;
         }
 
-        #test{
+        .box{
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            border:1px solid gray;
+            border-radius: 5px;
+            padding:10px;
+            margin-bottom: 10px;
+            width: 100%;
+            background-color: white;
+        }
+
+        #controlBtn{
+            margin-top: auto;
+            width: 80%;
+            height: 30px;
+        }
+
+        #mainContent{
+            width: 60vw;
+        }
+
+        #settingBox{
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            border:1px solid gray;
+            border-radius: 5px;
+            padding:10px;
+            width: 100%;
+            background-color: white;
+        }
+
+        #columns{
+            width: 80%;
+            margin-top:5px;
+        }
+
+        .roll{
+            border:solid 1px gray;
+            border-radius: 5px;
+            width: 100%;
+            text-align: center;
+            margin-top: 2px;
+        }
+
+        #roulette{
             display: flex;
             align-items: center;
             flex-direction: column;
             justify-content: center;
             border:solid 3px black;
-            width: 45vw;
-            height: 15vw;
+            width: 80%;
+            height: 70px;
             border-radius: 5px;
+            margin:10px;
         }
-
     </style>
 </body>
 </html>
