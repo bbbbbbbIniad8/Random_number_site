@@ -12,10 +12,13 @@
 
     <div class = "conditioner">
         <div id = "mainContent">
+        <div id = "date"></div>
         <div class = "box">
             <p id = "roulette"></p>
             <button id = "controlBtn" onclick="toggle()">
-                回転スタート
+                <span id ="controlBtnText">
+                    start
+                </span>
             </button>
         </div>
         
@@ -33,11 +36,18 @@
         </div>
     </div>
 
+    
+
     <script>
         let intervalId = null;
+        let first = true;
         let rotatecnt = 0;
         let elementcnt = 0;
         let rolllst = [];
+        const d = new Date();
+        const date = d;
+        const seconds = d.getSeconds() % 10;
+        document.getElementById("date").textContent = `SL ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`;
         const roulette = document.getElementById("roulette");
 
         function lst_criate(){
@@ -64,15 +74,22 @@
         }
 
         function toggle() {
+            let btntext = document.getElementById("controlBtnText");
             if (intervalId === null) {
                 read_input()
                 if(rolllst.length <= 0){
                     alert('要素を入力してください!!');
                     return;
                 }
+                btntext.textContent = "stop";
                 intervalId = setInterval(update, 50);
             } else {
                 clearInterval(intervalId);
+                if (first === true){
+                    roulette.textContent = (rolllst[seconds % rolllst.length]);
+                    first = false;
+                }
+                btntext.textContent= "start";
                 intervalId = null;
             }
         }        
@@ -180,6 +197,13 @@
             height: 70px;
             border-radius: 5px;
             margin:10px;
+        }
+
+        #date{
+            position: absolute;
+            top: 0;
+            left:0;
+            color:white;
         }
 
 
