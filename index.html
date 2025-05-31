@@ -49,6 +49,10 @@
         const slot = document.getElementById("slot");
 
         function lst_criate(){
+            if(document.getElementById('inputed').value === ""){
+                return;
+            }
+
             const newlstElement = document.createElement('div');
             newlstElement.id = `text${elementcnt}`;
             newlstElement.className = `roll`;
