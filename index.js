@@ -1,70 +1,64 @@
-let intervalId = null;
-let first = true;
-let rotateCnt = 0;
-let elementCnt = 0;
-let rollLst = [];
-const delateWord = "D"
+const DELETE_MARKER = "D"
 const date = new Date();
 const seconds = date.getSeconds() % 10;
-document.getElementById("date").textContent = `SL ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
 const slot = document.getElementById("slot");
+const slotState = {
+  intervalId: null,
+  isFirstSpin: true,
+  rotationCnt: 0,
+  rollLst: [],
+};
+document.getElementById("date").textContent = `SL ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
 
-function lstCreate(){
-    if(document.getElementById('inputed').value === ""){
+
+function pushLst(){
+    const input = document.getElementById('inputed').value;
+    if(input === ""){
         return;
     }
     const newlstElement = document.createElement('div');
-    newlstElement.id = `text${elementCnt}`;
+    newlstElement.id = `text${slotState.rollLst.length}`;
     newlstElement.className = `roll`;
-    newlstElement.textContent = `${document.getElementById('inputed').value}`;
+    newlstElement.textContent = `${input}`;
     document.getElementById('columns').appendChild(newlstElement);
     document.getElementById('inputed').value = "";
-    elementCnt++;
+    slotState.rollLst.push(input);
 }
 
 function elementDelete(index){
-    rollLst[index] = delateWord;
+    slotState.rollLst[index] = DELETE_MARKER;
 }
 
-function extractElment(lst, cnt, delateWord){
-    let target = 0;
+function extractElement(lst, cnt, DELETE_MARKER){
     const len = lst.length;
-    while(lst[(cnt+target)%len] == delateWord){
+    let target = 0;
+    while(lst[(cnt+target)%len] === DELETE_MARKER){
         target++;
     }
     return lst[(cnt+target)%len]
 }
 
 function update() {
-    rotateCnt++;
-    slot.textContent = extractElment(rollLst, rotateCnt, delateWord)
-}
-
-function readInput(){
-    rollLst = [];
-    for(let i = 0;i < elementCnt;i++){
-        const target = document.getElementById(`text${i}`).textContent;
-        rollLst.push(target);
-    }
+    slotState.rotationCnt++;
+    slot.textContent = extractElement(slotState.rollLst, slotState.rotationCnt, DELETE_MARKER)
 }
 
 function toggle() {
     let btntext = document.getElementById("controlBtnText");
-    if (intervalId === null) {
-        readInput()
-        if(rollLst.length <= 0){
+    if (slotState.intervalId === null) {
+        if(slotState.rollLst.length <= 0){
             alert('要素を入力してください!!');
             return;
         }
         btntext.textContent = "stop";
-        intervalId = setInterval(update, 50);
+        slotState.intervalId = setInterval(update, 50);
     } else {
-        clearInterval(intervalId);
-        if (first === true){
-            slot.textContent = extractElment(rollLst, seconds, delateWord);
-            first = false;
+        clearInterval(slotState.intervalId);
+        if (slotState.isFirstSpin === true){
+            slot.textContent = extractElement(slotState.rollLst, seconds, DELETE_MARKER);
+            slotState.isFirstSpin = false;
         }
         btntext.textContent= "start";
-        intervalId = null;
+        slotState.intervalId = null;
     }
 }
