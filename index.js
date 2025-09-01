@@ -43,14 +43,19 @@ function update() {
     slot.textContent = extractElement(slotState.rollLst, slotState.rotationCnt, DELETE_MARKER)
 }
 
+function btnTextChange(){
+    let btn = document.getElementById("controlBtnText");
+    const btnText = btn.textContent;
+    btn.textContent = (btnText === "stop") ? "start" : "stop";
+}
+
 function toggle() {
-    let btntext = document.getElementById("controlBtnText");
     if (slotState.intervalId === null) {
         if(slotState.rollLst.length <= 0){
             alert('要素を入力してください!!');
             return;
         }
-        btntext.textContent = "stop";
+        btnTextChange();
         slotState.intervalId = setInterval(update, 50);
     } else {
         clearInterval(slotState.intervalId);
@@ -58,7 +63,7 @@ function toggle() {
             slot.textContent = extractElement(slotState.rollLst, seconds, DELETE_MARKER);
             slotState.isFirstSpin = false;
         }
-        btntext.textContent= "start";
+        btnTextChange();
         slotState.intervalId = null;
     }
 }
